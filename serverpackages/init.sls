@@ -11,15 +11,23 @@ serverpackages__pkg_serverpackages:
 {% endfor %}
 {% endif %}
 
+
+{% if serverpackages.packages_additional is defined and serverpackages.packages_additional %}
 serverpackages__pkg_serverpackages_additional:
   pkg.installed:
     - pkgs: {{serverpackages.packages_additional}}
+{% endif %}
 
+{% if serverpackages.packages_latest is defined and serverpackages.packages_latest %}
 serverpackages__pkg_serverpackages_latest:
   pkg.latest:
     - pkgs: {{serverpackages.packages_latest}}
+{% endif %}
 
 
+{% if serverpackages.packages_latest_additional is defined and serverpackages.packages_latest_additional %}
 serverpackages__pkg_serverpackages_latest_additional:
   pkg.latest:
     - pkgs: {{serverpackages.packages_latest_additional}}
+{% endif %}
+
