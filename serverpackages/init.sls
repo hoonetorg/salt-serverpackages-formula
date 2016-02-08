@@ -3,11 +3,23 @@
 
 serverpackages__pkg_serverpackages:
   pkg.installed:
-    - name: serverpackages
+    - pkgs: {{serverpackages.packages}}
 {% if serverpackages.slsrequires is defined and serverpackages.slsrequires %}
     - require:
 {% for slsrequire in serverpackages.slsrequires %}
       - {{slsrequire}}
 {% endfor %}
 {% endif %}
-    - pkgs: {{serverpackages.packages}}
+
+serverpackages__pkg_serverpackages_additional:
+  pkg.installed:
+    - pkgs: {{serverpackages.packages_additional}}
+
+serverpackages__pkg_serverpackages_latest:
+  pkg.latest:
+    - pkgs: {{serverpackages.packages_latest}}
+
+
+serverpackages__pkg_serverpackages_latest_additional:
+  pkg.latest:
+    - pkgs: {{serverpackages.packages_latest_additional}}
