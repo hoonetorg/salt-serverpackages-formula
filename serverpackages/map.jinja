@@ -1,13 +1,25 @@
-{% set serverpackages = salt['grains.filter_by']({
-  'Debian': {
-    'packages': [ 'bash-completion', ],
-  },
-  'RedHat': {
-    'packages': [ 
-                  'bash-completion', 
-                ],
-  },
-  'default': {
-    'packages': [ 'bash-completion', ],
-  },
-}, merge=salt['pillar.get']('serverpackages:lookup')) %}
+{% import_yaml 'serverpackages/defaults.yaml' as default_settings %}
+
+{% set os_family_map = salt['grains.filter_by']({
+         'Debian': {
+             'packages': [ 'bash-completion', ],
+         },
+         'RedHat': {
+             'packages': [ 'bash-completion', ],
+         },
+         'Suse': {
+             'packages': [ 'bash-completion', ],
+         },
+         'default': {
+             'packages': [ 'bash-completion', ],
+         },
+   }
+   , grain="os_family")
+%}
+
+{% set serverpackages = salt['slsutil.merge'](default_settings.serverpackages, os_family_map, merge_lists=True) %}
+
+{% set serverpackages = salt['slsutil.merge'](serverpackages, salt['pillar.get']('serverpackages:lookup'), merge_lists=True) %}
+
+{% set serverpackages = salt['slsutil.merge'](serverpackages, salt['pillar.get']('serverpackages'), merge_lists=True) %}
+
