@@ -19,7 +19,7 @@
 
 {% set serverpackages = salt['slsutil.merge'](default_settings.serverpackages, os_family_map, merge_lists=True) %}
 
-{% set serverpackages = salt['slsutil.merge'](serverpackages, salt['pillar.get']('serverpackages:lookup'), merge_lists=True) %}
+{% set serverpackages = salt['slsutil.merge'](serverpackages, salt['pillar.get']('serverpackages:lookup')) %}
 
 {% set serverpackages = salt['slsutil.merge'](serverpackages, salt['pillar.get']('serverpackages'), merge_lists=True) %}
 
